@@ -17,5 +17,8 @@ run:
     - |
 
       ls
+      cd test-sam-app
+      ls
+
 
       # sam validate --template-file template.yaml
