@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: public.ecr.aws/s1h1q0g4/awscli
+    tag: latest
+
+inputs:
+  - name: layers
+
+run:
+  path: sh
+  args:
+    - -exc
+    - |
+
+      ls
+
+      # sam validate --template-file template.yaml
