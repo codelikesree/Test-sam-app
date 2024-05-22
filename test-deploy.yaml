@@ -1,52 +1,14 @@
 resources:
-  - name: finbogo-backend
+  - name: test-sam-app
     type: git
     source:
-      uri: git@github.com:codelikesree/Test-sam-app.git
-      branch: ci-pipeline
-      private_key: ((github-privatekey))
+      uri: https://github.com/codelikesree/Test-sam-app.git
+      branch: main
 
 jobs:
   - name: deploy
     plan:
-      - get: finbogo-backend
+      - get: test-sam-app
         trigger: true
-      - in_parallel:
-          - task: deploy
-            file: finbogo-backend/ci/deploy.yml
-            on_success:
-              put: notify
-              params:
-                text: |
-                  Deployment: success
-                title: Finbogo Backend Pipeline
-                actionName: Deploy
-                actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            on_failure:
-              put: notify
-              params:
-                color: EA4300
-                text: |
-                  Deployment: **WITH ERRORS**
-                title: Finbogo Backend Pipeline
-                actionName: Deploy
-                actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-          - task: version
-            file: finbogo-backend/ci/version.yml
-            on_success:
-              put: notify
-              params:
-                text: |
-                  Versioning: success
-                title: Finbogo Backend Pipeline
-                actionName: Version
-                actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            on_failure:
-              put: notify
-              params:
-                color: EA4300
-                text: |
-                  Versioning: **WITH ERRORS**
-                title: Finbogo Backend Pipeline
-                actionName: Version
-                actionTarget: $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+      - task: deploy
+        file: test-sam-app/ci/deploy.yaml
