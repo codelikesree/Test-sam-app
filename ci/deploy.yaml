@@ -8,7 +8,7 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: layers
+  - name: test-sam-app
 
 run:
   path: sh
